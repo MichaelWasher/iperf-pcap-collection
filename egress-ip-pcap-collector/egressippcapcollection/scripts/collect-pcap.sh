@@ -10,4 +10,4 @@ echo "Writing PCAP to $FILE_PATH"
 mkdir -p $DIR_PATH
 
 echo "Collecting PCAP..."
-tcpdump -i any -w $FILE_PATH  port 9 
+tcpdump -i any -w $FILE_PATH "port 30995"

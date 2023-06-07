@@ -29,7 +29,7 @@ spec:
         command:
         - '/bin/sh'
         - '-c'
-        - 'iperf3 -s'
+        - "iperf3 -s -p 30995"
         imagePullPolicy: IfNotPresent
         securityContext:
           runAsUser: 0
