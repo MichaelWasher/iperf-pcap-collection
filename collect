@@ -1,4 +1,9 @@
 #!/bin/bash
 
-source ./egress-ip-pcap-collector/collect
-source ./must-gather-iperf-collection/collect
+pushd ./egress-ip-pcap-collector
+bash ./collect
+popd
+
+pushd ./must-gather-iperf-collection
+bash ./collect
+popd

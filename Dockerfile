@@ -11,13 +11,8 @@ RUN wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/$OC_VER/opens
     mv kubectl /bin/ && \
     rm openshift-client-linux-$OC_VER.tar.gz
 
-ADD ./egressippcapcollection/ /chart/
-ADD ./deploy /bin/deploy
-ADD ./destroy /bin/destroy
-ADD ./collect /bin/collect
-
-ENV HELM_CHART=monitor
-ENV HELM_DIR=/chart
+ADD ./egress-ip-pcap-collector /egress-ip-pcap-collector
+Add ./must-gather-iperf-collection /must-gather-iperf-collection
 
 WORKDIR "/"
 ENTRYPOINT ["deploy"]

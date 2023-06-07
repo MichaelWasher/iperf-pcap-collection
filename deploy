@@ -1,4 +1,17 @@
 #!/bin/bash
 
-source ./egress-ip-pcap-collector/deploy
-source ./must-gather-iperf-collection/deploy
+pushd ./egress-ip-pcap-collector
+bash ./deploy
+popd
+
+pushd ./must-gather-iperf-collection
+bash ./deploy
+popd
+
+echo
+echo "------------------------------"
+echo
+echo "Namespaces used: [ iperf-collect , egress-ip-pcap ]"
+echo "------------------------------"
+echo
+

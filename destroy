@@ -1,4 +1,9 @@
 #!/bin/bash
 
-source ./egress-ip-pcap-collector/destroy
-source ./must-gather-iperf-collection/destroy
+pushd ./egress-ip-pcap-collector
+bash ./destroy
+popd
+
+pushd ./must-gather-iperf-collection
+bash ./destroy
+popd
