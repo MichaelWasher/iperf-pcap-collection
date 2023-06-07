@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source ./egress-ip-pcap-collector/destroy
+source ./must-gather-iperf-collection/destroy

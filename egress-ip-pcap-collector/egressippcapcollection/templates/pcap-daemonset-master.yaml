@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Values.egressippcapdaemonsetmaster.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "egressippcapcollection.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "egressippcapcollection.selectorLabels" . | nindent 6 }}
+      {{- with .Values.egressippcapdaemonsetmaster.nodeSelector }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- include "egressippcapcollection.selectorLabels" . | nindent 8 }}
+        {{- with .Values.egressippcapdaemonsetmaster.nodeSelector }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "egressippcapcollection.serviceAccountName" . }}
+      serviceAccount: {{ include "egressippcapcollection.serviceAccountName" . }}
+      containers:
+      - name: collect-pcaps
+        image: {{ .Values.image.repository }}
+        command:
+          - "/bin/bash"
+          - "-c"
+          - "bash /scripts/collect-pcap.sh && sleep infinity"
+        lifecycle:
+          preStop:
+            exec:
+              command: 
+              - "/bin/bash"
+              - "-c"
+              - "rm /pcaps/*"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+        - name: output
+          mountPath: /pcaps
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          privileged: true
+      hostNetwork: true
+      volumes:
+      - name: scripts
+        configMap:
+          name: metrics-scripts
+      - name: output
+        hostPath:
+          path: /var/log/pcaps
+          type: DirectoryOrCreate
+      {{- with .Values.egressippcapdaemonsetmaster.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source ./egress-ip-pcap-collector/collect
+source ./must-gather-iperf-collection/collect
