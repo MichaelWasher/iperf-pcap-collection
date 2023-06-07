@@ -11,9 +11,8 @@ RUN wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/$OC_VER/opens
     mv kubectl /bin/ && \
     rm openshift-client-linux-$OC_VER.tar.gz
 
-ADD ./egress-ip-pcap-collector /egress-ip-pcap-collector
-Add ./must-gather-iperf-collection /must-gather-iperf-collection
+ADD ./ /iperf-pcap-collection
 
-WORKDIR "/"
+WORKDIR "/iperf-pcap-collection"
 ENTRYPOINT ["deploy"]
 CMD [""]
